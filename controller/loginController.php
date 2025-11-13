@@ -67,10 +67,15 @@ class AuthController {
         return false;
     }
 
-    public function register($nome, $email, $senha)
+    public function register($nome, $email, $senha, $confirma_senha)
     {
-        if (empty($nome) || empty($email) || empty($senha)) {
+        if (empty($nome) || empty($email) || empty($senha) || empty($confirma_senha)) {
             throw new Exception("Todos os campos devem ser preenchidos.");
+        }
+
+        if ($senha !== $confirma_senha)
+        {
+            throw new Exception("Senha de confirmação está diferente.");
         }
 
         $this->validateEmail($email);

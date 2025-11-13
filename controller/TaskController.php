@@ -46,7 +46,7 @@ class TaskController {
                     $query .= " AND DATE(due_date) = date('now')";
                     break;
                 case 'overdue':
-                    $query .= " AND due_date IS NULL AND due_date < DATETIME('now') AND completed = 0";
+                    $query .= " AND due_date IS NULL OR due_date != '' AND due_date < DATETIME('now') AND completed = 0";
                 default:
                     break;
             }

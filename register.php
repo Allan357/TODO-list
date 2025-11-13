@@ -6,13 +6,12 @@ $auth = new AuthController();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    print_r($_POST);
     $nome = $_POST['nome'] ?? null;
     $email = $_POST['email'] ?? null;
     $senha = $_POST['senha'] ?? null;
-
+    $confirma_senha = $_POST['confirmar-senha'] ?? null;
     try {
-        if ($auth->register($nome, $email, $senha)) {
+        if ($auth->register($nome, $email, $senha, $confirma_senha)) {
             header("Location: login.php");
             exit;
         }
