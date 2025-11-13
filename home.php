@@ -21,8 +21,8 @@
 
     if (isset($_POST['task_action'])) {
         $id = $_POST['id'] ?? null;
-        $title = $_POST['title'] ?? '';
-        $description = $_POST['description'] ?? '';
+        $title = htmlspecialchars_decode($_POST['title']) ?? '';
+        $description = htmlspecialchars_decode($_POST['description']) ?? '';
         $due_date = empty($_POST['due_date']) ? null : $_POST['due_date'] ?? null;
 
         if ($_POST['task_action'] === 'add') {
@@ -74,7 +74,7 @@
         <?php include 'includes/sidebar.php'; ?>
 
         <div class="container py-4">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 align-items-stretch">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 align-items-stretch justify-content-center">
             <div class="col">
             <a href="?m=add" class="text-decoration-none text-secondary">
                 <div class="card h-100 border-secondary border-2 border-dashed bg-light bg-opacity-50 text-center">

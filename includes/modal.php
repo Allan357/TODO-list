@@ -32,7 +32,9 @@
                         <div class="modal-footer">
                             <?php if ($action === 'edit'): ?>
                                 <button type="submit" name="delete" class="btn btn-danger">Excluir Tarefa</button>
-                                <button type="submit" name="make_done" class="btn btn-outline-primary mt-auto">Marcar como concluída</button>
+                                <?php if ($editTask['completed'] === 0): ?>
+                                    <button type="submit" name="make_done" class="btn btn-outline-primary mt-auto">Marcar como concluída</button>
+                                <?php endif; ?>
                             <?php endif; ?>
                             <button type="submit" class="btn btn-primary">
                                 <?= $action === 'edit' ? 'Salvar Alterações' : 'Salvar Tarefa' ?>
