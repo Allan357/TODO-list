@@ -38,13 +38,31 @@ class Database
         
         if (!$tableExists) {
             $sql = "CREATE TABLE users ( 
-                    id INT AUTO_INCREMENT PRIMARY KEY, 
-                    nome TEXT NOT NULL, 
-                    email TEXT UNIQUE NOT NULL, 
-                    senha TEXT NOT NULL
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    nome VARCHAR(100) NOT NULL, 
+                    email VARCHAR(100) UNIQUE NOT NULL, 
+                    senha VARCHAR(255) NOT NULL
                 )";
             $this->pdo->exec($sql);
         }
+
+        $stmt = $this->pdo->query("SELECT name FROM sqlite_master WHERE type='table' AND name='tasks'");
+        $tableExists = $stmt->fetch() !== false;
+        
+        if (!$tableExists) {
+            $sql = "CREATE TABLE tasks ( 
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    title TEXT NOT NULL, 
+                    description TEXT NOT NULL, 
+                    due_date DATETIME,
+                    completed_date DATETIME,
+                    completed BOOLEAN NOT NULL DEFAULT 0,
+                    user_id INTEGER NOT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users (id)
+                )";
+            $this->pdo->exec($sql);
+        }
+
     }
 }
 

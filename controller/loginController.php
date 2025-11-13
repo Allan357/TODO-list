@@ -1,12 +1,14 @@
 <?php
 require_once 'database.php';
 class AuthController {
-
+    private $db = null;
     public function __construct()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
+        $this->db = Database::getInstance();
     }
 
     public function logged()
@@ -29,8 +31,7 @@ class AuthController {
 
     private function getUser($email, $senha): array | null
     {
-        $db = Database::getInstance();
-        $stmt = $db->getConnection()->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt = $this->db->getConnection()->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -80,8 +81,7 @@ class AuthController {
             throw new Exception("Usuário já cadastrado.", 1);
         }
 
-        $db = Database::getInstance();
-        $stmt = $db->getConnection()->prepare("INSERT INTO users (nome, email, senha) VALUES (:nome, :email, :senha)");
+        $stmt = $this->db->getConnection()->prepare("INSERT INTO users (nome, email, senha) VALUES (:nome, :email, :senha)");
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
         $stmt->execute(['nome' => $nome, 'email' => $email, 'senha' => $senha_hash]);
 
